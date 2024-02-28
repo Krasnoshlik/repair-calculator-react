@@ -1,8 +1,17 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const [range, setRahge] = useState(50);
+  const [totalPrice, setTotalPrice] = useState(0);
+  
+  function handleChangeTotal() {
+	setTotalPrice(range * 60);
+  }
+
+  useEffect(() => {
+	handleChangeTotal();
+  })
 
   return (
     <main className="calc-wrapper">
@@ -12,7 +21,6 @@ function App() {
 						<h1 className="heading-title">Repair cost calculator</h1>
 						<p className="heading-desc">Base price: 1 m² = 60€</p>
 					</div>
-
 
 					<div className="calc-section">
 						<label className="checkbox-wrapper title-bold section-title .section-title--vertical-center">
@@ -26,7 +34,7 @@ function App() {
 					<div className="calc-section">
 						<h4 className="checkbox-wrapper title-bold section-title">Repair type</h4>
 						<label className="radio-wrapper" data-name="mobile">
-							<input type="radio" className="radio" name="type" value="1" checked/>
+							<input type="radio" className="radio" name="type" value='1'/>
 							<div className="title-lite">Cosmetic</div>
 						</label>
 						<label className="radio-wrapper" data-name="mobile">
@@ -48,7 +56,7 @@ function App() {
 					<div className="calc-section">
 						<label className="checkbox-wrapper title-bold section-title"> Apartament type </label>
 						<label className="radio-wrapper">
-							<input type="radio" className="radio" name="building" value="1" checked />
+							<input type="radio" className="radio" name="building" value="1"/>
 							<div className="title-lite">New</div>
 						</label>
 						<label className="radio-wrapper">
@@ -74,7 +82,7 @@ function App() {
 							</label>
 
 							<label className="rooms-label">
-								<input className="rooms-radio-real" type="radio" name="rooms" value="1.02" checked />
+								<input className="rooms-radio-real" type="radio" name="rooms" value="1.02" />
 								<span className="rooms-radio-fake">2</span>
 							</label>
 
@@ -123,7 +131,7 @@ function App() {
 					<div className="calc-price">
 						<div className="calc-price-title">Final price:</div>
 						<div className="calc-price-value">
-							<span id="total-price">0</span>
+							<span id="total-price">{totalPrice}</span>
 							Euro
 						</div>
 					</div>
