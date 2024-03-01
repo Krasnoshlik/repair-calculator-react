@@ -4,17 +4,50 @@ import { useEffect, useState } from 'react';
 function App() {
   const [range, setRahge] = useState(50);
   const [totalPrice, setTotalPrice] = useState(0);
-  
+  const [repType, setRepType] = useState(1);
+  const [bonus, setBonus] = useState(1);
+
   function handleChangeTotal() {
-	setTotalPrice(range * 60);
+	setTotalPrice(((range * 60) * repType.toFixed(2) * bonus.toFixed(2)));
+  }
+  const inputs = document.querySelectorAll('input[type=radio]');
+  function changeHandler() {
+	let arr = [];
+	for(let i = 0, n; n = inputs[i]; ++i) {
+		if(n.checked === true) {
+			arr.push(+n.value)
+		}
+	}
+	console.log(arr)
+	if(arr.length > 0) {
+	let num = arr.reduce(
+		function (previousValue, currentValue) {
+			return previousValue * currentValue;
+		  }
+	);
+	setRepType(num);}
+  }
+  const bonusinputs = document.querySelectorAll('input[type=checkbox]');
+  function bonusOptions() {
+	let num = 1;
+	bonusinputs.forEach(function(e){
+		if(e.checked === true) {
+			return num = num * e.value;
+		}
+	})
+	setBonus(num)
   }
 
   useEffect(() => {
+	changeHandler();
+	bonusOptions();
 	handleChangeTotal();
-  })
+	});
+
+
 
   return (
-    <main className="calc-wrapper">
+    <main onChange={changeHandler} className="calc-wrapper">
 			<div className="container">
 				<form id="form">
 					<div className="heading">
@@ -25,7 +58,7 @@ function App() {
 					<div className="calc-section">
 						<label className="checkbox-wrapper title-bold section-title .section-title--vertical-center">
 							<span className="title__inline">Apartament size:</span>
-							<input type="number" min="0" max="200" value={range} id="square-input" className="title__inline input-short" />
+							<input type="number" min="0" max="200" value={range} className="title__inline input-short" />
 							<span className="title__inline">m²</span>
 						</label>
 						<input onChange={e => setRahge(e.target.value)} type="range" id="square-range" className="range-input" min="0" max="200" value={range} step="1" />
@@ -106,21 +139,21 @@ function App() {
 					<div className="calc-section">
 						<label className="checkbox-wrapper title-bold section-title"> Bonus options </label>
 						<label className="radio-wrapper">
-							<input type="checkbox" className="radio" name="ceiling" value="1.1" />
+							<input onChange={bonusOptions} type="checkbox" className="radio" name="ceiling" value="1.1" />
 							<div className="title-lite">
 								Stretch ceiling
 								<span className="note">+10% to price</span>
 							</div>
 						</label>
 						<label className="radio-wrapper">
-							<input type="checkbox" className="radio" name="walls" value="1.1" />
+							<input onChange={bonusOptions} type="checkbox" className="radio" name="walls" value="1.1" />
 							<div className="title-lite">
 								Wall painting
 								<span className="note">+10% to price</span>
 							</div>
 						</label>
 						<label className="radio-wrapper">
-							<input type="checkbox" className="radio" name="floor" value="1.1" />
+							<input onChange={bonusOptions} type="checkbox" className="radio" name="floor" value="1.1" />
 							<div className="title-lite">
 								Underfloor heating
 								<span className="note">+10% to price</span>
