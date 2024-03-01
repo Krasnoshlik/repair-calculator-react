@@ -8,7 +8,8 @@ function App() {
   const [bonus, setBonus] = useState(1);
 
   function handleChangeTotal() {
-	setTotalPrice(((range * 60) * repType.toFixed(2) * bonus.toFixed(2)));
+	let total = parseInt((range * 60) * repType.toFixed(2) * bonus.toFixed(2));
+	setTotalPrice(total);
   }
   const inputs = document.querySelectorAll('input[type=radio]');
   function changeHandler() {
@@ -164,8 +165,8 @@ function App() {
 					<div className="calc-price">
 						<div className="calc-price-title">Final price:</div>
 						<div className="calc-price-value">
-							<span id="total-price">{totalPrice}</span>
-							Euro
+							<span id="total-price">{totalPrice}  </span>
+							  Euro
 						</div>
 					</div>
 				</form>
